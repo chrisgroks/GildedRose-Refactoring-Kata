@@ -12,13 +12,20 @@ update_quality(Items) ->
 
 -spec update_item(#item{}) -> #item{}.
 update_item(Item = #item{name = Name}) ->
+  IsConjured = string:prefix(Name, "Conjured") /= nomatch,
   Item1 = if
             Name /= "Aged Brie" andalso Name /= "Backstage passes to a TAFKAL80ETC concert" ->
               if
                 Item#item.quality > 0 ->
                   if
                     Name /= "Sulfuras, Hand of Ragnaros" ->
-                      Item#item{quality = Item#item.quality - 1};
+                      ItemAfterFirst = Item#item{quality = Item#item.quality - 1},
+                      if
+                        IsConjured andalso ItemAfterFirst#item.quality > 0 ->
+                          ItemAfterFirst#item{quality = ItemAfterFirst#item.quality - 1};
+                        true ->
+                          ItemAfterFirst
+                      end;
                     true ->
                       Item
                   end;
@@ -69,7 +76,13 @@ update_item(Item = #item{name = Name}) ->
                 Item4#item.quality > 0 ->
                   if
                     Name /= "Sulfuras, Hand of Ragnaros" ->
-                      Item4#item{quality = Item4#item.quality - 1};
+                      ItemAfterSell = Item4#item{quality = Item4#item.quality - 1},
+                      if
+                        IsConjured andalso ItemAfterSell#item.quality > 0 ->
+                          ItemAfterSell#item{quality = ItemAfterSell#item.quality - 1};
+                        true ->
+                          ItemAfterSell
+                      end;
                     true -> Item4
                   end;
                 true -> Item4

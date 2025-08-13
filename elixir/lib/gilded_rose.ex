@@ -8,11 +8,18 @@ defmodule GildedRose do
   end
 
   def update_item(item) do
+    is_conjured = String.starts_with?(item.name, "Conjured")
+    
     item = cond do
       item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" ->
         if item.quality > 0 do
           if item.name != "Sulfuras, Hand of Ragnaros" do
-            %{item | quality: item.quality - 1}
+            item = %{item | quality: item.quality - 1}
+            if is_conjured && item.quality > 0 do
+              %{item | quality: item.quality - 1}
+            else
+              item
+            end
           else
             item
           end
@@ -63,7 +70,12 @@ defmodule GildedRose do
                   item.quality > 0 ->
                     cond do
                       item.name != "Sulfuras, Hand of Ragnaros" ->
-                        %{item | quality: item.quality - 1}
+                        item = %{item | quality: item.quality - 1}
+                        if is_conjured && item.quality > 0 do
+                          %{item | quality: item.quality - 1}
+                        else
+                          item
+                        end
                       true -> item
                     end
                   true -> item

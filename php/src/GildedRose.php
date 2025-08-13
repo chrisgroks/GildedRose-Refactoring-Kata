@@ -17,10 +17,15 @@ final class GildedRose
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
+            $isConjured = str_starts_with($item->name, 'Conjured');
+            
             if ($item->name != 'Aged Brie' and $item->name != 'Backstage passes to a TAFKAL80ETC concert') {
                 if ($item->quality > 0) {
                     if ($item->name != 'Sulfuras, Hand of Ragnaros') {
                         $item->quality = $item->quality - 1;
+                        if ($isConjured && $item->quality > 0) {
+                            $item->quality = $item->quality - 1;
+                        }
                     }
                 }
             } else {
@@ -51,6 +56,9 @@ final class GildedRose
                         if ($item->quality > 0) {
                             if ($item->name != 'Sulfuras, Hand of Ragnaros') {
                                 $item->quality = $item->quality - 1;
+                                if ($isConjured && $item->quality > 0) {
+                                    $item->quality = $item->quality - 1;
+                                }
                             }
                         }
                     } else {

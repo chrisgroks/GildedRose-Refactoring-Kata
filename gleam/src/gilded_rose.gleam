@@ -9,6 +9,11 @@ pub type Item {
 
 pub fn update_quality(inventory: GildedRose) -> GildedRose {
   let update_quality_item = fn(item: Item) {
+    let is_conjured = case item.name {
+      "Conjured" <> _ -> True
+      _ -> False
+    }
+    
     let new_quality = case
       item.name != "Aged Brie"
       && item.name != "Backstage passes to a TAFKAL80ETC concert"
@@ -17,7 +22,13 @@ pub fn update_quality(inventory: GildedRose) -> GildedRose {
         case item.quality > 0 {
           True ->
             case item.name != "Sulfuras, Hand of Ragnaros" {
-              True -> item.quality - 1
+              True -> {
+                let base_degradation = item.quality - 1
+                case is_conjured && base_degradation > 0 {
+                  True -> base_degradation - 1
+                  False -> base_degradation
+                }
+              }
               False -> item.quality
             }
           False -> item.quality
@@ -69,12 +80,18 @@ pub fn update_quality(inventory: GildedRose) -> GildedRose {
                 case new_quality > 0 {
                   True ->
                     case item.name != "Sulfuras, Hand of Ragnaros" {
-                      True ->
+                      True -> {
+                        let post_sell_degradation = new_quality - 1
+                        let final_quality = case is_conjured && post_sell_degradation > 0 {
+                          True -> post_sell_degradation - 1
+                          False -> post_sell_degradation
+                        }
                         Item(
                           ..item,
                           sell_in: new_sell_in,
-                          quality: new_quality - 1,
+                          quality: final_quality,
                         )
+                      }
                       False -> Item(..item, sell_in: new_sell_in, quality: 80)
                     }
                   False ->

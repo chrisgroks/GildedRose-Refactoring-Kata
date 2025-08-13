@@ -9,6 +9,7 @@ Public Class GildedRose
 
     Public Sub UpdateQuality()
         For i = 0 To Items.Count - 1
+            Dim isConjured As Boolean = Items(i).Name.StartsWith("Conjured")
 
             If Items(i).Name <> "Aged Brie" AndAlso Items(i).Name <> "Backstage passes to a TAFKAL80ETC concert" Then
 
@@ -16,6 +17,9 @@ Public Class GildedRose
 
                     If Items(i).Name <> "Sulfuras, Hand of Ragnaros" Then
                         Items(i).Quality = Items(i).Quality - 1
+                        If isConjured AndAlso Items(i).Quality > 0 Then
+                            Items(i).Quality = Items(i).Quality - 1
+                        End If
                     End If
                 End If
             Else
@@ -56,6 +60,9 @@ Public Class GildedRose
 
                             If Items(i).Name <> "Sulfuras, Hand of Ragnaros" Then
                                 Items(i).Quality = Items(i).Quality - 1
+                                If isConjured AndAlso Items(i).Quality > 0 Then
+                                    Items(i).Quality = Items(i).Quality - 1
+                                End If
                             End If
                         End If
                     Else

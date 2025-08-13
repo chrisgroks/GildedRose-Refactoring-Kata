@@ -11,12 +11,17 @@ sub new {
 sub update_quality {
     my $self = shift;
     for my $item ( @{ $self->{items} } ) {
+        my $is_conjured = $item->{name} =~ /^Conjured/;
+        
         if (   $item->{name} ne 'Aged Brie'
             && $item->{name} ne 'Backstage passes to a TAFKAL80ETC concert' )
         {
             if ( $item->{quality} > 0 ) {
                 if ( $item->{name} ne 'Sulfuras, Hand of Ragnaros' ) {
                     $item->{quality} = $item->{quality} - 1;
+                    if ( $is_conjured && $item->{quality} > 0 ) {
+                        $item->{quality} = $item->{quality} - 1;
+                    }
                 }
             }
         }
@@ -54,6 +59,9 @@ sub update_quality {
                     if ( $item->{quality} > 0 ) {
                         if ( $item->{name} ne 'Sulfuras, Hand of Ragnaros' ) {
                             $item->{quality} = $item->{quality} - 1;
+                            if ( $is_conjured && $item->{quality} > 0 ) {
+                                $item->{quality} = $item->{quality} - 1;
+                            }
                         }
                     }
                 }

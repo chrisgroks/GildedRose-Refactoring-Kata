@@ -64,11 +64,14 @@ Just for clarification, an item can never have its Quality increase above 50, ho
 updateQualityFor: items
 	items
 		do: [:item |
+			| isConjured |
+			isConjured := (item name beginsWith: 'Conjured').
 			(item name ~= 'Aged Brie'
 					and: [item name ~= 'Backstage passes to a TAFKAL80ETC concert'])
 				ifTrue: [item quality > 0
 						ifTrue: [item name ~= 'Sulfuras, Hand of Ragnaros'
-								ifTrue: [item quality: item quality - 1]]]
+								ifTrue: [item quality: item quality - 1.
+									isConjured ifTrue: [item quality > 0 ifTrue: [item quality: item quality - 1]]]]]
 				ifFalse: [item quality < 50
 						ifTrue: [item quality: item quality + 1.
 							item name = 'Backstage passes to a TAFKAL80ETC concert'
@@ -85,7 +88,8 @@ updateQualityFor: items
 						ifTrue: [item name ~= 'Backstage passes to a TAFKAL80ETC concert'
 								ifTrue: [item quality > 0
 										ifTrue: [item name ~= 'Sulfuras, Hand of Ragnaros'
-												ifTrue: [item quality: item quality - 1]]]
+												ifTrue: [item quality: item quality - 1.
+													isConjured ifTrue: [item quality > 0 ifTrue: [item quality: item quality - 1]]]]]
 								ifFalse: [item quality: item quality - item quality]]
 						ifFalse: [item quality < 50
 								ifTrue: [item quality: item quality + 1]]]]! !

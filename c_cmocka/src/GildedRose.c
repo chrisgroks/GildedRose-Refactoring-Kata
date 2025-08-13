@@ -17,6 +17,8 @@ void update_quality(Item items[], int size)
     
     for (i = 0; i < size; i++)
     {
+        int is_conjured = strncmp(items[i].name, "Conjured", 8) == 0;
+        
         if (strcmp(items[i].name, "Aged Brie") && strcmp(items[i].name, "Backstage passes to a TAFKAL80ETC concert"))
         {
             if (items[i].quality > 0)
@@ -24,6 +26,10 @@ void update_quality(Item items[], int size)
                 if (strcmp(items[i].name, "Sulfuras, Hand of Ragnaros"))
                 {
                     items[i].quality = items[i].quality - 1;
+                    if (is_conjured && items[i].quality > 0)
+                    {
+                        items[i].quality = items[i].quality - 1;
+                    }
                 }
             }
         }
@@ -70,6 +76,10 @@ void update_quality(Item items[], int size)
                         if (strcmp(items[i].name, "Sulfuras, Hand of Ragnaros"))
                         {
                             items[i].quality = items[i].quality - 1;
+                            if (is_conjured && items[i].quality > 0)
+                            {
+                                items[i].quality = items[i].quality - 1;
+                            }
                         }
                     }
                 }

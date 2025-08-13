@@ -8,6 +8,7 @@ DECLARE
   l_name item.name%TYPE;
   l_sell_in item.sell_in%TYPE;
   l_quality item.quality%TYPE;
+  l_is_conjured BOOLEAN;
 BEGIN
   OPEN c_items;
   LOOP
@@ -17,11 +18,15 @@ BEGIN
     l_name    := l_item.name;
     l_sell_in := l_item.sell_in;
     l_quality := l_item.quality;
+    l_is_conjured := l_name LIKE 'Conjured%';
 
     IF l_name <> 'Aged Brie' AND l_name <> 'Backstage passes to a TAFKAL80ETC concert' THEN
       IF l_quality > 0 THEN
         IF l_name <> 'Sulfuras, Hand of Ragnaros' THEN
           l_quality := l_quality - 1;
+          IF l_is_conjured AND l_quality > 0 THEN
+            l_quality := l_quality - 1;
+          END IF;
         END IF;
       END IF;
     ELSE
@@ -52,6 +57,9 @@ BEGIN
           IF l_quality > 0 THEN
             IF l_name <> 'Sulfuras, Hand of Ragnaros' THEN
               l_quality := l_quality - 1;
+              IF l_is_conjured AND l_quality > 0 THEN
+                l_quality := l_quality - 1;
+              END IF;
             END IF;
           END IF;
         ELSE

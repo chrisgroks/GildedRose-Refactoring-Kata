@@ -23,10 +23,15 @@ pub const GildedRose = struct {
 
     pub fn updateQuality(self: *GildedRose) []Item {
         for (0..self.items.len) |i| {
+            const is_conjured = std.mem.startsWith(u8, self.items[i].name, "Conjured");
+            
             if (!std.mem.eql(u8, self.items[i].name, "Aged Brie") and !std.mem.eql(u8, self.items[i].name, "Backstage passes to a TAFKAL80ETC concert")) {
                 if (self.items[i].quality > 0) {
                     if (!std.mem.eql(u8, self.items[i].name, "Sulfuras, Hand of Ragnaros")) {
                         self.items[i].quality = self.items[i].quality - 1;
+                        if (is_conjured and self.items[i].quality > 0) {
+                            self.items[i].quality = self.items[i].quality - 1;
+                        }
                     }
                 }
             } else {
@@ -55,6 +60,9 @@ pub const GildedRose = struct {
                         if (self.items[i].quality > 0) {
                             if (!std.mem.eql(u8, self.items[i].name, "Sulfuras, Hand of Ragnaros")) {
                                 self.items[i].quality = self.items[i].quality - 1;
+                                if (is_conjured and self.items[i].quality > 0) {
+                                    self.items[i].quality = self.items[i].quality - 1;
+                                }
                             }
                         }
                     } else {

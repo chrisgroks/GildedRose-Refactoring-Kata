@@ -7,11 +7,15 @@ type Item struct {
 
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
+		isConjured := strings.HasPrefix(items[i].Name, "Conjured")
 
 		if items[i].Name != "Aged Brie" && items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
 			if items[i].Quality > 0 {
 				if items[i].Name != "Sulfuras, Hand of Ragnaros" {
 					items[i].Quality = items[i].Quality - 1
+					if isConjured && items[i].Quality > 0 {
+						items[i].Quality = items[i].Quality - 1
+					}
 				}
 			}
 		} else {
@@ -38,13 +42,16 @@ func UpdateQuality(items []*Item) {
 
 		if items[i].SellIn < 0 {
 			if items[i].Name != "Aged Brie" {
-				if items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
-					if items[i].Quality > 0 {
-						if items[i].Name != "Sulfuras, Hand of Ragnaros" {
+			if items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
+				if items[i].Quality > 0 {
+					if items[i].Name != "Sulfuras, Hand of Ragnaros" {
+						items[i].Quality = items[i].Quality - 1
+						if isConjured && items[i].Quality > 0 {
 							items[i].Quality = items[i].Quality - 1
 						}
 					}
-				} else {
+				}
+			} else {
 					items[i].Quality = items[i].Quality - items[i].Quality
 				}
 			} else {

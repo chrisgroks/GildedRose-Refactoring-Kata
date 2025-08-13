@@ -9,6 +9,8 @@ void GildedRose::updateQuality()
 {
     for (int i = 0; i < items.size(); i++)
     {
+        bool isConjured = items[i].name.substr(0, 8) == "Conjured";
+        
         if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert")
         {
             if (items[i].quality > 0)
@@ -16,6 +18,10 @@ void GildedRose::updateQuality()
                 if (items[i].name != "Sulfuras, Hand of Ragnaros")
                 {
                     items[i].quality = items[i].quality - 1;
+                    if (isConjured && items[i].quality > 0)
+                    {
+                        items[i].quality = items[i].quality - 1;
+                    }
                 }
             }
         }
@@ -62,6 +68,10 @@ void GildedRose::updateQuality()
                         if (items[i].name != "Sulfuras, Hand of Ragnaros")
                         {
                             items[i].quality = items[i].quality - 1;
+                            if (isConjured && items[i].quality > 0)
+                            {
+                                items[i].quality = items[i].quality - 1;
+                            }
                         }
                     }
                 }

@@ -29,9 +29,12 @@ end;
 procedure TGildedRose.UpdateQuality;
 var
   I: Integer;
+  IsConjured: Boolean;
 begin
   for I := 0 to Items.Count - 1 do
   begin
+    IsConjured := Copy(Items[I].Name, 1, 8) = 'Conjured';
+    
     if (Items[I].Name <> 'Aged Brie') and (Items[I].Name <> 'Backstage passes to a TAFKAL80ETC concert') then
     begin
       if Items[I].Quality > 0 then
@@ -39,6 +42,10 @@ begin
         if Items[I].Name <> 'Sulfuras, Hand of Ragnaros' then
         begin
           Items[I].Quality := Items[I].Quality - 1;
+          if IsConjured and (Items[I].Quality > 0) then
+          begin
+            Items[I].Quality := Items[I].Quality - 1;
+          end;
         end;
       end;
     end
@@ -84,6 +91,10 @@ begin
             if Items[I].Name <> 'Sulfuras, Hand of Ragnaros' then
             begin
               Items[I].Quality := Items[I].Quality - 1;
+              if IsConjured and (Items[I].Quality > 0) then
+              begin
+                Items[I].Quality := Items[I].Quality - 1;
+              end;
             end;
           end;
         end
