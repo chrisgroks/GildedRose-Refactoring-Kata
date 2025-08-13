@@ -91,11 +91,16 @@ CLASS lcl_gilded_rose IMPLEMENTATION.
   METHOD update_quality.
 
     LOOP AT mt_items INTO DATA(lo_item).
+      DATA(lv_is_conjured) = COND abap_bool( WHEN lo_item->mv_name CP |Conjured*| THEN abap_true ELSE abap_false ).
+      
       IF lo_item->mv_name <> |Aged Brie| AND
          lo_item->mv_name <> |Backstage passes to a TAFKAL80ETC concert|.
         IF lo_item->mv_quality > 0.
           IF lo_item->mv_name <> |Sulfuras, Hand of Ragnaros|.
             lo_item->mv_quality = lo_item->mv_quality - 1.
+            IF lv_is_conjured = abap_true AND lo_item->mv_quality > 0.
+              lo_item->mv_quality = lo_item->mv_quality - 1.
+            ENDIF.
           ENDIF.
         ENDIF.
       ELSE.
@@ -128,6 +133,9 @@ CLASS lcl_gilded_rose IMPLEMENTATION.
             IF lo_item->mv_quality > 0.
               IF lo_item->mv_name <> |Sulfuras, Hand of Ragnaros|.
                 lo_item->mv_quality = lo_item->mv_quality - 1.
+                IF lv_is_conjured = abap_true AND lo_item->mv_quality > 0.
+                  lo_item->mv_quality = lo_item->mv_quality - 1.
+                ENDIF.
               ENDIF.
             ENDIF.
           ELSE.

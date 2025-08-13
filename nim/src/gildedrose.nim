@@ -2,10 +2,14 @@ import items
 
 proc updateQuality*(items: var seq[Item]) =
   for i in 0 ..< items.len:
+    let isConjured = items[i].name.startsWith("Conjured")
+    
     if items[i].name != "Aged Brie" and items[i].name != "Backstage passes to a TAFKAL80ETC concert":
       if items[i].quality > 0:
         if items[i].name != "Sulfuras, Hand of Ragnaros":
           items[i].quality = items[i].quality - 1
+          if isConjured and items[i].quality > 0:
+            items[i].quality = items[i].quality - 1
     else:
       if items[i].quality < 50:
         items[i].quality = items[i].quality + 1
@@ -28,6 +32,8 @@ proc updateQuality*(items: var seq[Item]) =
           if items[i].quality > 0:
             if items[i].name != "Sulfuras, Hand of Ragnaros":
               items[i].quality = items[i].quality - 1
+              if isConjured and items[i].quality > 0:
+                items[i].quality = items[i].quality - 1
         else:
           items[i].quality = items[i].quality - items[i].quality
       else:

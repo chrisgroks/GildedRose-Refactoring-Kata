@@ -21,13 +21,17 @@ module Items = struct
 
   let update_quality items =
     let update_quality_items ({ name; sell_in; quality } as item : Item.t) =
+      let is_conjured = String.length name >= 8 && String.sub name 0 8 = "Conjured" in
       let quality' =
         if
           name <> "Aged Brie"
           && name <> "Backstage passes to a TAFKAL80ETC concert"
         then
           if quality > 0 then
-            if name <> "Sulfuras, Hand of Ragnaros" then quality - 1
+            if name <> "Sulfuras, Hand of Ragnaros" then 
+              let base_degradation = quality - 1 in
+              if is_conjured && base_degradation > 0 then base_degradation - 1
+              else base_degradation
             else quality
           else quality
         else if quality < 50 then
@@ -50,7 +54,9 @@ module Items = struct
           if name <> "Backstage passes to a TAFKAL80ETC concert" then
             if quality' > 0 then
               if name <> "Sulfuras, Hand of Ragnaros" then
-                { item with sell_in = sell_in'; quality = quality' - 1 }
+                let post_sell_degradation = quality' - 1 in
+                let final_quality = if is_conjured && post_sell_degradation > 0 then post_sell_degradation - 1 else post_sell_degradation in
+                { item with sell_in = sell_in'; quality = final_quality }
               else { item with sell_in = sell_in'; quality = quality' }
             else { item with sell_in = sell_in'; quality = quality' }
           else { item with sell_in = sell_in'; quality = quality' - quality' }

@@ -7,10 +7,15 @@ class GildedRose {
 
     method update_quality {
 	for @!items -> $item {
+	    my $is_conjured = $item.name.starts-with('Conjured');
+	    
 	    if ($item.name ne 'Aged Brie' && $item.name ne 'Backstage passes to a TAFKAL80ETC concert') {
 		if ( $item.quality > 0 ) {
 		    if ( $item.name ne 'Sulfuras, Hand of Ragnaros' ) {
 			$item.quality = $item.quality - 1;
+			if ( $is_conjured && $item.quality > 0 ) {
+			    $item.quality = $item.quality - 1;
+			}
 		    }
 		}
 	    }
@@ -47,6 +52,9 @@ class GildedRose {
 			if ( $item.quality > 0 ) {
 			    if ( $item.name ne 'Sulfuras, Hand of Ragnaros' ) {
 				$item.quality = $item.quality - 1;
+				if ( $is_conjured && $item.quality > 0 ) {
+				    $item.quality = $item.quality - 1;
+				}
 			    }
 			}
 		    }

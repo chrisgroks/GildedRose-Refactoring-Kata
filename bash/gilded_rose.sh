@@ -4,10 +4,18 @@ update_quality() {
     local IFS='|'
 
     while read -r name sell_in quality; do
+        local is_conjured=false
+        if [[ $name == Conjured* ]]; then
+            is_conjured=true
+        fi
+        
         if [[ $name != "Aged Brie" && $name != "Backstage passes to a TAFKAL80ETC concert" ]]; then
             if ((quality > 0)); then
                 if [[ $name != "Sulfuras, Hand of Ragnaros" ]]; then
                     quality=$((quality - 1))
+                    if [[ $is_conjured == true && $quality > 0 ]]; then
+                        quality=$((quality - 1))
+                    fi
                 fi
             fi
         else
@@ -39,6 +47,9 @@ update_quality() {
                     if ((quality > 0)); then
                         if [[ $name != "Sulfuras, Hand of Ragnaros" ]]; then
                             quality=$((quality - 1))
+                            if [[ $is_conjured == true && $quality > 0 ]]; then
+                                quality=$((quality - 1))
+                            fi
                         fi
                     fi
                 else

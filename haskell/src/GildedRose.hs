@@ -14,6 +14,7 @@ updateQuality = map updateQualityItem
   where
     updateQualityItem (Item name sellIn quality) =
       let
+        isConjured = take 8 name == "Conjured"
         quality' =
           if name /= "Aged Brie"
              && name /= "Backstage passes to a TAFKAL80ETC concert"
@@ -21,7 +22,10 @@ updateQuality = map updateQualityItem
             if quality > 0
             then
               if name /= "Sulfuras, Hand of Ragnaros"
-              then quality - 1
+              then let baseDecrease = quality - 1
+                   in if isConjured && baseDecrease > 0
+                      then baseDecrease - 1
+                      else baseDecrease
               else quality
             else quality
           else
@@ -59,7 +63,10 @@ updateQuality = map updateQualityItem
               if quality' > 0
               then
                 if name /= "Sulfuras, Hand of Ragnaros"
-                then (Item name sellIn' (quality' - 1))
+                then let baseDecrease = quality' - 1
+                     in if isConjured && baseDecrease > 0
+                        then (Item name sellIn' (baseDecrease - 1))
+                        else (Item name sellIn' baseDecrease)
                 else (Item name sellIn' quality')
               else (Item name sellIn' quality')
             else (Item name sellIn' (quality' - quality'))

@@ -4,13 +4,19 @@ use Ada.Strings.Unbounded;
 package body Gilded_Rose is
   procedure Update_Quality(Self : in out Gilded_Rose) is
     Cursor : Item_Vecs.Cursor := Item_Vecs.First(Self.Items);
+    Is_Conjured : Boolean;
   begin
     while Item_Vecs.Has_Element(Cursor) loop
+      Is_Conjured := Ada.Strings.Unbounded.Index(Self.Items(Cursor).Name, "Conjured") = 1;
+      
       if Self.Items(Cursor).Name /= To_Unbounded_String("Aged Brie")
         and Self.Items(Cursor).Name /= To_Unbounded_String("Backstage passes to a TAFKAL80ETC concert") then
         if Self.Items(Cursor).Quality > 0 then
           if Self.Items(Cursor).Name /= To_Unbounded_String("Sulfuras, Hand of Ragnaros") then
             Self.Items(Cursor).Quality := Self.Items(Cursor).Quality - 1;
+            if Is_Conjured and Self.Items(Cursor).Quality > 0 then
+              Self.Items(Cursor).Quality := Self.Items(Cursor).Quality - 1;
+            end if;
           end if;
         end if;
       else
@@ -43,6 +49,9 @@ package body Gilded_Rose is
             if Self.Items(Cursor).Quality > 0 then
               if Self.Items(Cursor).Name /= To_Unbounded_String("Sulfuras, Hand of Ragnaros") then
                 Self.Items(Cursor).Quality := Self.Items(Cursor).Quality - 1;
+                if Is_Conjured and Self.Items(Cursor).Quality > 0 then
+                  Self.Items(Cursor).Quality := Self.Items(Cursor).Quality - 1;
+                end if;
               end if;
             end if;
           else

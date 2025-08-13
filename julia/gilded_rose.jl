@@ -14,10 +14,15 @@ end
 
 function update_quality!(gr::GildedRose)
     for item in gr.items
+        is_conjured = startswith(item.name, "Conjured")
+        
         if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
             if item.quality > 0
                 if item.name != "Sulfuras, Hand of Ragnaros"
                     item.quality = item.quality - 1
+                    if is_conjured && item.quality > 0
+                        item.quality = item.quality - 1
+                    end
                 end
             end
         else
@@ -46,6 +51,9 @@ function update_quality!(gr::GildedRose)
                     if item.quality > 0
                         if item.name != "Sulfuras, Hand of Ragnaros"
                             item.quality = item.quality - 1
+                            if is_conjured && item.quality > 0
+                                item.quality = item.quality - 1
+                            end
                         end
                     end
                 else

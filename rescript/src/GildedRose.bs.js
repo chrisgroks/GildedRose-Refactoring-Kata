@@ -17,6 +17,7 @@ var Item = {
 function updateQuality(items) {
   return items.map(function (item) {
               var newItem = item;
+              var isConjured = newItem.name.startsWith("Conjured");
               if (newItem.name !== "Aged Brie" && newItem.name !== "Backstage passes to a TAFKAL80ETC concert") {
                 if (newItem.quality > 0 && newItem.name !== "Sulfuras, Hand of Ragnaros") {
                   var init = newItem;
@@ -25,6 +26,14 @@ function updateQuality(items) {
                     sellIn: init.sellIn,
                     quality: newItem.quality - 1 | 0
                   };
+                  if (isConjured && newItem.quality > 0) {
+                    var init2 = newItem;
+                    newItem = {
+                      name: init2.name,
+                      sellIn: init2.sellIn,
+                      quality: newItem.quality - 1 | 0
+                    };
+                  }
                 }
                 
               } else if (newItem.quality < 50) {
@@ -73,6 +82,14 @@ function updateQuality(items) {
                         sellIn: init$5.sellIn,
                         quality: newItem.quality - 1 | 0
                       };
+                      if (isConjured && newItem.quality > 0) {
+                        var init$5b = newItem;
+                        newItem = {
+                          name: init$5b.name,
+                          sellIn: init$5b.sellIn,
+                          quality: newItem.quality - 1 | 0
+                        };
+                      }
                     }
                     
                   } else {

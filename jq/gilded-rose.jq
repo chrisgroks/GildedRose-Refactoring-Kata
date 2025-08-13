@@ -2,10 +2,16 @@ def update_quality:
     [
         .[]
         |
+        (.name | startswith("Conjured")) as $is_conjured
+        |
         if .name != "Aged Brie" and .name != "Backstage passes to a TAFKAL80ETC concert" then
             if .quality > 0 then
                 if .name != "Sulfuras, Hand of Ragnaros" then
                     .quality = .quality - 1
+                    |
+                    if $is_conjured and .quality > 0 then
+                        .quality = .quality - 1
+                    end
                 end
             end
         else
@@ -38,6 +44,10 @@ def update_quality:
                     if .quality > 0 then
                         if .name != "Sulfuras, Hand of Ragnaros" then
                             .quality = .quality - 1
+                            |
+                            if $is_conjured and .quality > 0 then
+                                .quality = .quality - 1
+                            end
                         end
                     end
                 else

@@ -17,6 +17,9 @@ BEGIN
       IF l_quality > 0 THEN
         IF l_name <> 'Sulfuras, Hand of Ragnaros' THEN
           l_quality := l_quality - 1;
+          IF SUBSTR(l_name, 1, 8) = 'Conjured' AND l_quality > 0 THEN
+            l_quality := l_quality - 1;
+          END IF;
         END IF;
       END IF;
     ELSE
@@ -47,6 +50,9 @@ BEGIN
           IF l_quality > 0 THEN
             IF l_name <> 'Sulfuras, Hand of Ragnaros' THEN
               l_quality := l_quality - 1;
+              IF SUBSTR(l_name, 1, 8) = 'Conjured' AND l_quality > 0 THEN
+                l_quality := l_quality - 1;
+              END IF;
             END IF;
           END IF;
         ELSE

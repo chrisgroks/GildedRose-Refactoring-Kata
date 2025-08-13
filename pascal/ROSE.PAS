@@ -58,9 +58,12 @@ end;
 
 procedure UpdateQuality(Items: ListOfItems);
 var I: Word;
+    IsConjured: Boolean;
 begin
     for I := 0 to Items.Length-1 do
     begin
+        IsConjured := Pos('Conjured', Items.Elements^[I].Name) = 1;
+        
         if (Items.Elements^[I].Name <> 'Aged Brie') and
            (Items.Elements^[I].Name <> 'Backstage passes to a TAFKAL80ETC concert') then
         begin
@@ -69,6 +72,10 @@ begin
                 if Items.Elements^[I].Name <> 'Sulfuras, Hand of Ragnaros' then
                 begin
                     Items.Elements^[I].Quality := Items.Elements^[I].Quality - 1;
+                    if IsConjured and (Items.Elements^[I].Quality > 0) then
+                    begin
+                        Items.Elements^[I].Quality := Items.Elements^[I].Quality - 1;
+                    end;
                 end;
             end;
         end
@@ -115,6 +122,10 @@ begin
                         if Items.Elements^[I].Name <> 'Sulfuras, Hand of Ragnaros' then
                         begin
                             Items.Elements^[I].Quality := Items.Elements^[I].Quality - 1;
+                            if IsConjured and (Items.Elements^[I].Quality > 0) then
+                            begin
+                                Items.Elements^[I].Quality := Items.Elements^[I].Quality - 1;
+                            end;
                         end;
                     end;
                 end

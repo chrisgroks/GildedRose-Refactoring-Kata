@@ -12,10 +12,15 @@ classdef GildedRose
         function update_quality(obj)
             for i = 1:length(obj.items)
                 item = obj.items(i);
+                is_conjured = startsWith(item.name, "Conjured");
+                
                 if item.name ~= "Aged Brie" && item.name ~= "Backstage passes to a TAFKAL80ETC concert"
                     if item.quality > 0
                         if item.name ~= "Sulfuras, Hand of Ragnaros"
                             item.quality = item.quality - 1;
+                            if is_conjured && item.quality > 0
+                                item.quality = item.quality - 1;
+                            end
                         end
                     end
                 else
@@ -44,6 +49,9 @@ classdef GildedRose
                             if item.quality > 0
                                 if item.name ~= "Sulfuras, Hand of Ragnaros"
                                     item.quality = item.quality - 1;
+                                    if is_conjured && item.quality > 0
+                                        item.quality = item.quality - 1;
+                                    end
                                 end
                             end
                         else

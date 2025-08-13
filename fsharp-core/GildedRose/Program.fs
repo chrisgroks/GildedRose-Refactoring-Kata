@@ -9,10 +9,14 @@ type GildedRose(items:IList<Item>) =
 
     member this.UpdateQuality() =
         for i = 0 to Items.Count - 1 do
+            let isConjured = Items.[i].Name.StartsWith("Conjured")
+            
             if Items.[i].Name <> "Aged Brie" && Items.[i].Name <> "Backstage passes to a TAFKAL80ETC concert" then
                 if Items.[i].Quality > 0 then
                     if Items.[i].Name <> "Sulfuras, Hand of Ragnaros" then
-                        Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality - 1) } 
+                        Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality - 1) }
+                        if isConjured && Items.[i].Quality > 0 then
+                            Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality - 1) }
             else
                if Items.[i].Quality < 50 then
                     Items.[i] <- { Items.[i] with Quality = (Items.[i].Quality + 1) } 
@@ -30,7 +34,9 @@ type GildedRose(items:IList<Item>) =
                     if Items.[i].Name <> "Backstage passes to a TAFKAL80ETC concert" then
                         if Items.[i].Quality > 0 then
                             if Items.[i].Name <> "Sulfuras, Hand of Ragnaros" then
-                                Items.[i] <- { Items.[i] with Quality   = (Items.[i].Quality  - 1) } 
+                                Items.[i] <- { Items.[i] with Quality   = (Items.[i].Quality  - 1) }
+                                if isConjured && Items.[i].Quality > 0 then
+                                    Items.[i] <- { Items.[i] with Quality   = (Items.[i].Quality  - 1) }
                     else
                         Items.[i] <- { Items.[i] with Quality   = (Items.[i].Quality  - Items.[i].Quality) } 
                 else
@@ -62,4 +68,4 @@ module Program =
                  printfn "%s, %d, %d" Items.[j].Name Items.[j].SellIn Items.[j].Quality
             printfn ""
             app.UpdateQuality()
-        0 
+        0  

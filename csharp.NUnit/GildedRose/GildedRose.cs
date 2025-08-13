@@ -15,6 +15,8 @@ public class GildedRose
     {
         for (var i = 0; i < Items.Count; i++)
         {
+            bool isConjured = Items[i].Name.StartsWith("Conjured");
+            
             if (Items[i].Name != "Aged Brie" && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
             {
                 if (Items[i].Quality > 0)
@@ -22,6 +24,10 @@ public class GildedRose
                     if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
                     {
                         Items[i].Quality = Items[i].Quality - 1;
+                        if (isConjured && Items[i].Quality > 0)
+                        {
+                            Items[i].Quality = Items[i].Quality - 1;
+                        }
                     }
                 }
             }
@@ -68,6 +74,10 @@ public class GildedRose
                             if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
                             {
                                 Items[i].Quality = Items[i].Quality - 1;
+                                if (isConjured && Items[i].Quality > 0)
+                                {
+                                    Items[i].Quality = Items[i].Quality - 1;
+                                }
                             }
                         }
                     }

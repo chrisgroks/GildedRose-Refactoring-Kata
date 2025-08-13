@@ -5,11 +5,16 @@ class GildedRose(val items: Array[Item]) {
 
   def updateQuality() : Unit = {
     for (i <- 0 until items.length) {
+      val isConjured = items(i).name.startsWith("Conjured")
+      
       if (!items(i).name.equals("Aged Brie")
         && !items(i).name.equals("Backstage passes to a TAFKAL80ETC concert")) {
         if (items(i).quality > 0) {
           if (!items(i).name.equals("Sulfuras, Hand of Ragnaros")) {
             items(i).quality = items(i).quality - 1
+            if (isConjured && items(i).quality > 0) {
+              items(i).quality = items(i).quality - 1
+            }
           }
         }
       } else {
@@ -42,6 +47,9 @@ class GildedRose(val items: Array[Item]) {
             if (items(i).quality > 0) {
               if (!items(i).name.equals("Sulfuras, Hand of Ragnaros")) {
                 items(i).quality = items(i).quality - 1
+                if (isConjured && items(i).quality > 0) {
+                  items(i).quality = items(i).quality - 1
+                }
               }
             }
           } else {

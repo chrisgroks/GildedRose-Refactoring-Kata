@@ -50,8 +50,11 @@ contains
         integer :: size 
 
         integer :: i 
+        logical :: is_conjured
 
         do i = 1, size
+            is_conjured = index(items(i)%name, "Conjured") == 1
+            
             if (items(i)%name /= "Aged Brie" .and. items(i)%name /= "Backstage passes to a TAFKAL80ETC concert" ) then
 
                 if (items(i)%quality > 0) then
@@ -59,6 +62,9 @@ contains
                     if (items(i)%name /= "Sulfuras, Hand of Ragnaros" ) then
 
                         items(i)%quality = items(i)%quality - 1
+                        if (is_conjured .and. items(i)%quality > 0) then
+                            items(i)%quality = items(i)%quality - 1
+                        endif
                     endif
 
                 endif
@@ -113,6 +119,9 @@ contains
                             if (items(i)%name /= "Sulfuras, Hand of Ragnaros" )then
 
                                 items(i)%quality = items(i)%quality - 1
+                                if (is_conjured .and. items(i)%quality > 0) then
+                                    items(i)%quality = items(i)%quality - 1
+                                endif
 
                             endif
 

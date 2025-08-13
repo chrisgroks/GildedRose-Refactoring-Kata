@@ -15,6 +15,7 @@ module Item = {
 let updateQuality = (items: array<Item.t>) => {
   items->Js.Array2.map(item => {
     let newItem = ref(item)
+    let isConjured = Js.String2.startsWith(newItem.contents.name, "Conjured")
 
     if (
       newItem.contents.name != "Aged Brie" &&
@@ -23,6 +24,9 @@ let updateQuality = (items: array<Item.t>) => {
       if newItem.contents.quality > 0 {
         if newItem.contents.name != "Sulfuras, Hand of Ragnaros" {
           newItem := {...newItem.contents, quality: newItem.contents.quality - 1}
+          if isConjured && newItem.contents.quality > 0 {
+            newItem := {...newItem.contents, quality: newItem.contents.quality - 1}
+          }
         }
       }
     } else if newItem.contents.quality < 50 {
@@ -53,6 +57,9 @@ let updateQuality = (items: array<Item.t>) => {
           if newItem.contents.quality > 0 {
             if newItem.contents.name != "Sulfuras, Hand of Ragnaros" {
               newItem := {...newItem.contents, quality: newItem.contents.quality - 1}
+              if isConjured && newItem.contents.quality > 0 {
+                newItem := {...newItem.contents, quality: newItem.contents.quality - 1}
+              }
             }
           }
         } else {
