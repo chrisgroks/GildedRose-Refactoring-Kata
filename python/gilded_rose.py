@@ -7,6 +7,15 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
+            if "Conjured" in item.name:
+                if item.name != "Sulfuras, Hand of Ragnaros":
+                    item.sell_in = item.sell_in - 1
+                
+                degradation = 2 if item.sell_in >= 0 else 4
+                if item.quality > 0 and item.name != "Sulfuras, Hand of Ragnaros":
+                    item.quality = max(0, item.quality - degradation)
+                continue
+            
             if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
                 if item.quality > 0:
                     if item.name != "Sulfuras, Hand of Ragnaros":
