@@ -4,8 +4,8 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = '18'
-targetCompatibility = '18'
+sourceCompatibility = '21'
+targetCompatibility = '21'
 
 dependencies {
     implementation 'org.codehaus.groovy:groovy:3.0.8'

@@ -10,7 +10,7 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <java.version>18</java.version>
+        <java.version>21</java.version>
         <junit.version>4.13.2</junit.version>
         <cucumber.java.version>6.10.4</cucumber.java.version>
         <maven.maven-compiler-plugin.version>3.11.0</maven.maven-compiler-plugin.version>
